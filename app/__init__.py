@@ -6,9 +6,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_pagedown import PageDown
 from config import config
+from flask_pymongo import PyMongo
 
 bootstrap = Bootstrap()
 mail = Mail()
+mongo = PyMongo()
 moment = Moment()
 db = SQLAlchemy()
 pagedown = PageDown()
@@ -24,6 +26,7 @@ def create_app(config_name):
 
     bootstrap.init_app(app)
     mail.init_app(app)
+    mongo.init_app(app)
     moment.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
