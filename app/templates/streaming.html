@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="http://vjs.zencdn.net/6.2.8/video-js.css" rel="stylesheet">
+    <script src="http://vjs.zencdn.net/6.2.8/video.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-flash@2/dist/videojs-flash.min.js"></script>
+    <link rel="shortcut icon" href="#" />
+</head>
+
+<body>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <h1>Enjoy!</h1>
+    <form style="text-align: right;">
+    <input type="button" value="Go back!" onclick="history.back()"></input>
+    </form>
+	<div id={{ name }}>
+		<video id={{ name }} class="video-js vjs-default-skin" width="640px" height="267px"
+	     		controls preload="none" poster='https://raw.githubusercontent.com/javi3143/nginxvideo/master/mp4/pics/{{ name }}.jpg'
+	     		data-setup='{ "aspectRatio":"640:267", "playbackRates": [1, 1.5, 2] }'>
+			<source src="rtmp://{{ ip }}:81/vod2/{{ name }}.mp4" type='rtmp/mp4' />
+		</video>
+    </div>
+    
+</body>
+</html>

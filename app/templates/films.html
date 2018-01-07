@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <h1>Our films catalogue</h1>
+    <ul class="list-group"></ul>
+    {% for film in films_catalogue %}
+        <li class='list-group-item'><a href='films/{{film}}'>{{film}}</a></li>
+    {% endfor %}
+    </ul>
+    
+{% endblock %}

@@ -1,0 +1,13 @@
+{% include 'base.html' %}
+
+{% block body %}
+
+<title><strong>About me</strong></title>
+    <p style="float: left;margin-left:3em;"><img src="http://i65.tinypic.com/2pouow9.jpg" height="400px" width="200px" border="3px"></p>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+    <p style="text-align: center; margin-right: 3em;margin-left: 3em;"> I'm a data engineering student at University of Dundee. This project was born as a devops assignment
+    some time ago, today this webpage is worth billions of dollars.</p>
+    <p style="text-align: center; margin-right: 3em;margin-left: 3em;"><img src='https://media.giphy.com/media/wranrCRq3f90A/giphy.gif'></p>
+
+{% endblock %}

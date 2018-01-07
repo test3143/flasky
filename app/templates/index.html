@@ -1,35 +1,17 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-{% import "_macros.html" as macros %}
+{% include "base.html" %}
 
-{% block title %}Flasky{% endblock %}
-
-{% block page_content %}
-<div class="page-header">
-    <h1>Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h1>
-</div>
-<div>
-    {% if current_user.can(Permission.WRITE) %}
-    {{ wtf.quick_form(form) }}
-    {% endif %}
-</div>
-<div class="post-tabs">
-    <ul class="nav nav-tabs">
-        <li{% if not show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_all') }}">All</a></li>
+{% block body %}
+    <div class='jumbotron text-center'style="background-size: cover;background-image: url('{{ url_for('static', filename='back.jpg') }}'); color:white; width:900px; margin: 0 auto; border-radius: 15px;padding: 1em;">
         {% if current_user.is_authenticated %}
-        <li{% if show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_followed') }}">Followers</a></li>
+            <h1>Happy to see you again, {{ current_user.username }}!</h1>
+            <p class='lead'>You can now click on Films or Series to access our magnificent catalogue</p>
+        {% else %}
+            <h1>Welcome to MyFlix, Stranger!</h1>
+            <p class='lead'>Watch movies &
+                TV shows online or stream right to your smart TV,
+                game console, PC, Mac, mobile or tablet. Please Register or Login.</p>
         {% endif %}
-    </ul>
-    {% include '_posts.html' %}
-</div>
-{% if pagination %}
-<div class="pagination">
-    {{ macros.pagination_widget(pagination, '.index') }}
-</div>
-{% endif %}
-{% endblock %}
+    </div>
 
-{% block scripts %}
-{{ super() }}
-{{ pagedown.include_pagedown() }}
+    <p style="text-align:center;"><img src='{{ url_for('static', filename='dog.jpg') }}'> </p>
 {% endblock %}
