@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, abort, flash, request,\
-    current_app, make_response
+    current_app, make_response, session
 from flask_login import login_required, current_user
 from flask_sqlalchemy import get_debug_queries
 from . import main
@@ -8,7 +8,36 @@ from .forms import EditProfileForm, EditProfileAdminForm, PostForm,\
 from .. import db
 from ..models import Permission, Role, User, Post, Comment
 from ..decorators import admin_required, permission_required
+import urllib.request
 
+# List of films tab
+@main.route('/films')
+@login_required
+def films():
+    cursor = mongo.db.videos.find()
+    films_catalogue = []
+    films_for_urls = []
+    for doc in cursor:
+        name1 = doc["video"]["Name"]
+        films_catalogue.append(name1.replace(":", ""))
+    return render_template('films.html', films_catalogue=films_catalogue)
+
+
+# Stream specific movie tab
+@main.route('/films/<name>')
+@login_required
+def streaming(name):
+    req = urllib.request.Request('https://enabledns.com/ip')
+    with urllib.request.urlopen(req) as response:
+        the_page = response.read()
+    ip = the_page[2:15]
+    return render_template('streaming.html', name=name, ip=ip)
+
+# About tab
+@main.route('/about')
+@login_required
+def about():
+    return render_template('about.html')
 
 @main.after_app_request
 def after_request(response):
@@ -32,29 +61,14 @@ def server_shutdown():
     return 'Shutting down...'
 
 
-@main.route('/', methods=['GET', 'POST'])
+# Home
+@main.route('/')
 def index():
-    form = PostForm()
-    if current_user.can(Permission.WRITE) and form.validate_on_submit():
-        post = Post(body=form.body.data,
-                    author=current_user._get_current_object())
-        db.session.add(post)
-        db.session.commit()
-        return redirect(url_for('.index'))
-    page = request.args.get('page', 1, type=int)
-    show_followed = False
-    if current_user.is_authenticated:
-        show_followed = bool(request.cookies.get('show_followed', ''))
-    if show_followed:
-        query = current_user.followed_posts
+    if 'username' in session:
+        username = session['username']
     else:
-        query = Post.query
-    pagination = query.order_by(Post.timestamp.desc()).paginate(
-        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
-        error_out=False)
-    posts = pagination.items
-    return render_template('index.html', form=form, posts=posts,
-                           show_followed=show_followed, pagination=pagination)
+        username = 'Stranger'
+    return render_template('index.html', username=username)
 
 
 @main.route('/user/<username>')
