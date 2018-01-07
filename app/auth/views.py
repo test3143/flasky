@@ -9,6 +9,17 @@ from .forms import LoginForm, RegistrationForm, ChangePasswordForm,\
     PasswordResetRequestForm, PasswordResetForm, ChangeEmailForm
 import datetime
 
+# Account info tab
+@auth.route('/account-info')
+@login_required
+def account():
+
+    username = current_user.username
+    details = User.query.filter_by(username=username)
+    for i in details:
+        name = i.name
+        email = i.email
+    return render_template('auth/account.html', name = name, username=username, email=email)
 @auth.before_app_request
 def before_request():
     if current_user.is_authenticated:
