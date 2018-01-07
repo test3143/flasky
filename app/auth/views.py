@@ -7,7 +7,7 @@ from ..models import User
 from ..email import send_email
 from .forms import LoginForm, RegistrationForm, ChangePasswordForm,\
     PasswordResetRequestForm, PasswordResetForm, ChangeEmailForm
-
+import datetime
 
 @auth.before_app_request
 def before_request():
@@ -54,9 +54,9 @@ def logout():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(email=form.email.data,
+        user = User(name=form.name.data,email=form.email.data,
                     username=form.username.data,
-                    password=form.password.data)
+                    password=form.password.data, register_date = datetime.now())
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
