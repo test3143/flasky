@@ -8,6 +8,7 @@ from .forms import EditProfileForm, EditProfileAdminForm, PostForm,\
 from .. import db
 from ..models import Permission, Role, User, Post, Comment
 from ..decorators import admin_required, permission_required
+from flask_pymongo import PyMongo
 import urllib.request
 
 # List of films tab
