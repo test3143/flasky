@@ -42,7 +42,7 @@ def streaming(name):
     req = urllib.request.Request('https://enabledns.com/ip')
     with urllib.request.urlopen(req) as response:
         the_page = response.read()
-    ip = the_page[2:15]
+    ip = str(the_page)[2:15]
     return render_template('streaming.html', name=name, ip=ip)
 
 # About tab
