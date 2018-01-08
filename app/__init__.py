@@ -7,7 +7,7 @@ from flask_login import LoginManager
 from flask_pagedown import PageDown
 from config import config
 from flask_pymongo import PyMongo
-import urllib.request
+
 
 bootstrap = Bootstrap()
 mail = Mail()
