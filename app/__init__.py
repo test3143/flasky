@@ -7,6 +7,7 @@ from flask_login import LoginManager
 from flask_pagedown import PageDown
 from config import config
 from flask_pymongo import PyMongo
+import urllib.request
 
 bootstrap = Bootstrap()
 mail = Mail()
@@ -23,7 +24,16 @@ def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
-
+    
+    MONGO_PORT = 83
+    MONGODB = '/myflix'
+    app.config['MONGO_DBNAME'] = 'myflix'
+    req_MONGO = urllib.request.Request('https://enabledns.com/ip')
+    with urllib.request.urlopen(req_MONGO) as response:
+        MONGO_PAGE = response.read()
+    IP_MONGO = MONGO_PAGE[2:15]
+    app.config['MONGO_URI'] = 'mongodb://%s:%s%s'%(IP_MONGO, MONGO_PORT, MONGODB)
+    
     bootstrap.init_app(app)
     mail.init_app(app)
     mongo.init_app(app)
