@@ -1,4 +1,5 @@
 import os
+import urllib.request
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -20,7 +21,12 @@ class Config:
     FLASKY_FOLLOWERS_PER_PAGE = 50
     FLASKY_COMMENTS_PER_PAGE = 30
     FLASKY_SLOW_DB_QUERY_TIME = 0.5
-
+    MONGO_DBNAME = '/myflix'
+    MONGO_PORT = 83
+    req = urllib.request.Request('https://enabledns.com/ip')
+    with urllib.request.urlopen(req) as response:
+        the_page = response.read()
+    MONGO_IP = the_page[2:15]
     @staticmethod
     def init_app(app):
         pass
@@ -42,6 +48,7 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    MONGO_URI = 'mongodb://%s:%s%s'%(IP_MONGO, MONGO_PORT, MONGO_DBNAME)'
 
     @classmethod
     def init_app(cls, app):
