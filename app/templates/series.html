@@ -1,11 +1,14 @@
 {% include 'base.html' %}
 
 {% block body %}
-    <h1> Our series catalogue</h1>
-    <ul class="list-group"></ul>
+<h1 style="margin-left:3em;"> <strong>Our series catalogue</strong></h1>
+    <div style="width: 80%; margin: 0 auto;margin-top:3em;">
     {% for serie in series_catalogue %}
-        <li class='list-group-item'><a href='series/{{serie}}'>{{serie}}</a></li>
+    <li style="float: left;margin-left:3em;list-style-type: none;text-align:justify;">
+    <img width="260" height="146"  src="https://raw.githubusercontent.com/javi3143/flasky/master/app/static/{{ serie }}.jpg" sizes="(max-width: 260px) 100vw, 260px" />
+    <h3><a href="series/{{ serie }}"> {{ serie }}</a></h3></li>
     {% endfor %}
-    </ul>
-    
+    </div>
+
+
 {% endblock %}
