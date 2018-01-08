@@ -9,26 +9,15 @@ from .. import db
 from .. import mongo
 from ..models import Permission, Role, User, Post, Comment
 from ..decorators import admin_required, permission_required
-from flask_pymongo import PyMongo
 import urllib.request
 
 # List of films tab
 @main.route('/films')
 @login_required
 def films():
-    app = Flask(__name__)
-    req = urllib.request.Request('https://enabledns.com/ip')
-    with urllib.request.urlopen(req) as response:
-        the_page = response.read()
-    IP = the_page[2:15]
-    PORT = 83
-    MONGODB = '/myflix'
-    app.config['MONGO_URI'] = 'mongodb://%s:%s%s'%(IP, PORT, MONGODB)
-    app.config['MONGO_DBNAME'] = 'myflix'
-    mongo = PyMongo(app)
     cursor = mongo.db.videos.find()
     films_catalogue = []
-    films_for_urls = []
+    
     for doc in cursor:
         name1 = doc["video"]["Name"]
         films_catalogue.append(name1.replace(":", ""))
