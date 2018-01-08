@@ -1,0 +1,11 @@
+{% include 'base.html' %}
+
+{% block body %}
+    <h1> Our series catalogue</h1>
+    <ul class="list-group"></ul>
+    {% for serie in series_catalogue %}
+        <li class='list-group-item'><a href='series/{{serie}}'>{{serie}}</a></li>
+    {% endfor %}
+    </ul>
+    
+{% endblock %}
