@@ -1,11 +1,14 @@
 {% include 'base.html' %}
 
 {% block body %}
-    <h1>Our films catalogue</h1>
-    <ul class="list-group"></ul>
+<h1 style="margin-left:3em;"> <strong>Our films catalogue</strong></h1>
+    <div style="width: 90%; margin: 0 auto;margin-top:3em;">
     {% for film in films_catalogue %}
-        <li class='list-group-item'><a href='films/{{film}}'>{{film}}</a></li>
+    <li style="float: left;margin-left:3em;list-style-type: none;text-align:justify;">
+    <img width="260" height="146"  src="https://raw.githubusercontent.com/javi3143/flasky/master/app/static/{{ film }}.jpg" sizes="(max-width: 260px) 100vw, 260px" />
+    <h3><a href="films/{{ film }}"> {{ film }}</a></h3></li>
     {% endfor %}
-    </ul>
-    
+    </div>
+
+
 {% endblock %}
