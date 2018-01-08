@@ -23,11 +23,32 @@ def films():
         films_catalogue.append(name1.replace(":", ""))
     return render_template('films.html', films_catalogue=films_catalogue)
 
+# List of series tab
+@main.route('/series')
+@login_required
+def series():
+    cursor = mongo.db.series.find()
+    series_catalogue = []
+
+    for doc in cursor:
+        name1 = doc["serie"]["Name"]
+        series_catalogue.append(name1.replace(":", ""))
+    return render_template('series.html', series_catalogue=series_catalogue)
 
 # Stream specific movie tab
 @main.route('/films/<name>')
 @login_required
 def streaming(name):
+    req = urllib.request.Request('https://enabledns.com/ip')
+    with urllib.request.urlopen(req) as response:
+        the_page = response.read()
+    ip = str(the_page)[2:15]
+    return render_template('streaming.html', name=name, ip=ip)
+
+# Stream specific serie tab
+@main.route('/series/<name>')
+@login_required
+def streamingserie(name):
     req = urllib.request.Request('https://enabledns.com/ip')
     with urllib.request.urlopen(req) as response:
         the_page = response.read()
