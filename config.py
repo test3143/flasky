@@ -1,7 +1,13 @@
 import os
+import urllib.request
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-
+MONGO_PORT = 83
+MONGODB = 'myflix'
+req = urllib.request.Request('https://enabledns.com/ip')
+with urllib.request.urlopen(req) as response:
+    the_page = response.read()
+MONGO_IP = str(the_page)[2:15]
 
 class Config:
     SECRET_KEY = 'hard to guess string'
@@ -21,6 +27,8 @@ class Config:
     FLASKY_FOLLOWERS_PER_PAGE = 50
     FLASKY_COMMENTS_PER_PAGE = 30
     FLASKY_SLOW_DB_QUERY_TIME = 0.5
+    
+    MONGO_URI = 'mongodb://%s:%s/%s'%(MONGO_IP, MONGO_PORT, MONGODB)
     
     
     @staticmethod
