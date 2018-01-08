@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, abort, flash, request,\
-    current_app, make_response, session
+    current_app, make_response, session, Flask
 from flask_login import login_required, current_user
 from flask_sqlalchemy import get_debug_queries
 from . import main
@@ -16,6 +16,16 @@ import urllib.request
 @main.route('/films')
 @login_required
 def films():
+    app = Flask(__name__)
+    req = urllib.request.Request('https://enabledns.com/ip')
+    with urllib.request.urlopen(req) as response:
+        the_page = response.read()
+    IP = the_page[2:15]
+    PORT = 83
+    MONGODB = '/myflix'
+    app.config['MONGO_URI'] = 'mongodb://%s:%s%s'%(IP, PORT, MONGODB)
+    app.config['MONGO_DBNAME'] = 'myflix'
+    mongo = PyMongo(app)
     cursor = mongo.db.videos.find()
     films_catalogue = []
     films_for_urls = []
