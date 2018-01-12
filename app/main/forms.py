@@ -1,12 +1,16 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, BooleanField, SelectField,\
-    SubmitField
+    SubmitField, IntegerField
 from wtforms.validators import DataRequired, Length, Email, Regexp
 from wtforms import ValidationError
 from flask_pagedown.fields import PageDownField
 from ..models import Role, User
 
 
+class RatingForm(FlaskForm):
+    number = IntegerField('Rate this film from 1 to 5', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+    
 class NameForm(FlaskForm):
     name = StringField('What is your name?', validators=[DataRequired()])
     submit = SubmitField('Submit')
