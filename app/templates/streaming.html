@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,16 +10,21 @@
 
 <body>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <h1>Enjoy!</h1>
+
     <form style="text-align: right;">
-    <input type="button" value="Go back!" onclick="history.back()"></input>
+    <input type="button" value="Go back!" onclick="history.back()"/>
+    </input>
     </form>
-	<div id={{ name }}>
+    <form style="text-align: right;">
+        <a class="btn" href="http://127.0.0.1:5000/films/{{ name }}/rating">Rate this movie!</a>
+    </form>
+    <div style="margin-top:1em;">
 		<video id={{ name }} class="video-js vjs-default-skin" width="640px" height="267px"
-	     		controls preload="none" poster='https://raw.githubusercontent.com/javi3143/flasky/master/app/static/{{ name }}.jpg'	     		data-setup='{ "aspectRatio":"640:267", "playbackRates": [1, 1.5, 2] }'>
-			<source src="rtmp://{{ ip }}:81/vod2/{{ name }}.mp4" type='rtmp/mp4' />
+	     		controls preload="none" poster='https://raw.githubusercontent.com/javi3143/flasky/master/app/static/{{ name }}.jpg'
+	     		data-setup='{ "aspectRatio":"640:267", "playbackRates": [1, 1.5, 2] }'>
+			<source src="rtmp://35.198.157.33:81/vod2/{{ name }}.mp4" type='rtmp/mp4' />
 		</video>
     </div>
-    
+
 </body>
 </html>
