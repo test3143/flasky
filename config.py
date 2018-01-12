@@ -4,7 +4,7 @@ import socket
 basedir = os.path.abspath(os.path.dirname(__file__))
 MONGO_PORT = 83
 MONGODB = 'myflix'
-MONGO_IP = socket.gethostbyname(socket.gethostname())
+MONGO_IP = str(get('https://ipapi.co/ip/').text)
 
 
 class Config:
