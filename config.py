@@ -1,5 +1,5 @@
 import os
-import socket
+from requests import get
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 MONGO_PORT = 83
