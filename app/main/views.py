@@ -11,6 +11,8 @@ from ..models import Permission, Role, User, Post, Comment, Rating_class
 from ..decorators import admin_required, permission_required
 import socket
 
+from requests import get
+
 # List of films tab
 @main.route('/films')
 @login_required
@@ -39,7 +41,7 @@ def series():
 @main.route('/films/<name>')
 @login_required
 def streaming(name):
-    ip = socket.gethostbyname(socket.gethostname())
+    ip = str(get('https://ipapi.co/ip/').text)
     return render_template('streaming.html', name=name, ip=ip)
 
 @main.route('/films/<name>/rating', methods=['GET', 'POST'])
@@ -67,7 +69,7 @@ def rating(name):
 @main.route('/series/<name>')
 @login_required
 def streamingserie(name):
-    ip = socket.gethostbyname(socket.gethostname())
+    ip = str(get('https://ipapi.co/ip/').text)
     return render_template('streaming.html', name=name, ip=ip)
 
 # About tab
