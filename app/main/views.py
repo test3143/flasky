@@ -9,7 +9,7 @@ from .. import db
 from .. import mongo
 from ..models import Permission, Role, User, Post, Comment
 from ..decorators import admin_required, permission_required
-import urllib.request
+import socket
 
 # List of films tab
 @main.route('/films')
@@ -39,20 +39,14 @@ def series():
 @main.route('/films/<name>')
 @login_required
 def streaming(name):
-    req = urllib.request.Request('https://enabledns.com/ip')
-    with urllib.request.urlopen(req) as response:
-        the_page = response.read()
-    ip = str(the_page)[2:15]
+    ip = socket.gethostbyname(socket.gethostname())
     return render_template('streaming.html', name=name, ip=ip)
 
 # Stream specific serie tab
 @main.route('/series/<name>')
 @login_required
 def streamingserie(name):
-    req = urllib.request.Request('https://enabledns.com/ip')
-    with urllib.request.urlopen(req) as response:
-        the_page = response.read()
-    ip = str(the_page)[2:15]
+    ip = socket.gethostbyname(socket.gethostname())
     return render_template('streaming.html', name=name, ip=ip)
 
 # About tab
