@@ -1,13 +1,11 @@
 import os
-import urllib.request
+import socket
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 MONGO_PORT = 83
 MONGODB = 'myflix'
-req = urllib.request.Request('https://enabledns.com/ip')
-with urllib.request.urlopen(req) as response:
-    the_page = response.read()
-MONGO_IP = str(the_page)[2:15]
+MONGO_IP = socket.gethostbyname(socket.gethostname())
+
 
 class Config:
     SECRET_KEY = 'hard to guess string'
