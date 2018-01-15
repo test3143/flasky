@@ -1,16 +1,16 @@
 from flask import render_template, redirect, url_for, abort, flash, request,\
-    current_app, make_response, session, Flask
+    current_app, make_response, session
 from flask_login import login_required, current_user
 from flask_sqlalchemy import get_debug_queries
 from . import main
 from .forms import EditProfileForm, EditProfileAdminForm, PostForm,\
-    CommentForm, RatingForm
+    CommentForm, RatingForm, PaymentForm
 from .. import db
 from .. import mongo
 from ..models import Permission, Role, User, Post, Comment, Rating_class
 from ..decorators import admin_required, permission_required
-import socket
-
+import telnetlib
+import time
 from requests import get
 
 # List of films tab
@@ -19,11 +19,46 @@ from requests import get
 def films():
     cursor = mongo.db.videos.find()
     films_catalogue = []
-    
+    substatus = current_user.paid
+
+    if substatus == False:
+        flash('Your subscription has expired. Please make a payment')
+        return redirect(url_for('main.subscription'))
     for doc in cursor:
         name1 = doc["video"]["Name"]
         films_catalogue.append(name1.replace(":", ""))
     return render_template('films.html', films_catalogue=films_catalogue)
+
+def connect():
+    HOST = str(get('https://ipapi.co/ip/').text)
+    
+    user = current_user.id
+    tn = telnetlib.Telnet(HOST, port=82, timeout=1)
+    tn.write(str(user).encode('ascii'))
+    time.sleep(1)
+
+    return tn.read_very_eager()
+
+@main.route('/rec')
+@login_required
+def rec():
+
+    from .views import connect
+    c = connect().decode('ascii')
+    e = c.split('\n')
+    rec_list = list(filter(None, e))
+    return render_template('rec.html', rec_list=rec_list)
+
+@main.route('/subscription', methods=['GET', 'POST'])
+@login_required
+def subscription():
+    form = PaymentForm()
+    if form.validate_on_submit():
+        current_user.paid = True
+        db.session.add(current_user)
+        db.session.commit()
+        return redirect(url_for('main.films'))
+    return render_template('subscription.html', form=form)
 
 # List of series tab
 @main.route('/series')
@@ -32,6 +67,11 @@ def series():
     cursor = mongo.db.series.find()
     series_catalogue = []
 
+    substatus = current_user.paid
+
+    if substatus == False:
+        flash('Your subscription has expired. Please make a payment')
+        return redirect(url_for('main.subscription'))
     for doc in cursor:
         name1 = doc["serie"]["Name"]
         series_catalogue.append(name1.replace(":", ""))
