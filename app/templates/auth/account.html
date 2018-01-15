@@ -6,7 +6,10 @@
         <hr><strong>Full Name:</strong> {{ name }}</hr>
         <hr><strong>Email Address:</strong> {{ email }}</hr>
         <hr><strong>User Name:</strong> {{ username }}</hr>
-        
+        {% if state == 'Active' %}
+        <hr><strong>Subscription Status:</strong> <p><font color="green">{{ state }}</font></p></hr>
+        {% else %}
+        <hr><strong>Subscription Status:</strong> <p><font color="red">{{ state }}</font></p></hr>
     </ul>
-    
+        {% endif %}
 {% endblock %}
