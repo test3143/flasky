@@ -15,11 +15,16 @@ import datetime
 def account():
 
     username = current_user.username
+    status = current_user.paid
+    if status == True:
+        state = 'Active'
+    else:
+        state = 'Inactive'
     details = User.query.filter_by(username=username)
     for i in details:
         name = i.name
         email = i.email
-    return render_template('auth/account.html', name = name, username=username, email=email)
+    return render_template('auth/account.html', name = name, username=username, email=email, state=state)
 @auth.before_app_request
 def before_request():
     if current_user.is_authenticated:
