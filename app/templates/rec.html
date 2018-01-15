@@ -1,0 +1,12 @@
+{% include 'base.html' %}
+
+{% block body %}
+<h1 style="margin-left:3em;"> <strong>Recommended films for you</strong></h1>
+    <div style="width: 90%; margin: 0 auto;margin-top:3em;">
+    {% for rec in rec_list %}
+        <ul><li>{{ rec }}</li></ul>
+    {% endfor %}
+    </div>
+
+
+{% endblock %}
