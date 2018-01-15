@@ -10,6 +10,12 @@ from ..models import Role, User
 class RatingForm(FlaskForm):
     number = IntegerField('Rate this film from 1 to 5', validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+class PaymentForm(FlaskForm):
+    card_number = IntegerField('Card Number', validators=[DataRequired()])
+    expiry = StringField('Expiry Date')
+    cvv = IntegerField('CVV')
+    submit = SubmitField('Submit')
     
 class NameForm(FlaskForm):
     name = StringField('What is your name?', validators=[DataRequired()])
